@@ -171,7 +171,7 @@ export const transitionPeriod = createServerFn({ method: "POST" })
       throw new Error("Informe o motivo da reabertura.");
 
     const now = new Date().toISOString();
-    const patch: Record<string, unknown> = {};
+    const patch: PeriodPatch = {};
     switch (data.action) {
       case "enviar": {
         const { data: entries } = await supabase
@@ -220,7 +220,7 @@ export const transitionPeriod = createServerFn({ method: "POST" })
         break;
     }
 
-    const { error: updErr } = await supabase.from("bonus_periods").update(patch).eq("id", period.id);
+    const { error: updErr } = await supabase.from("bonus_periods").update(patch as never).eq("id", period.id);
     if (updErr) throw new Error(updErr.message);
 
     await supabase.from("audit_logs").insert({
@@ -306,10 +306,23 @@ export const openPeriod = createServerFn({ method: "POST" })
     return { ok: true, period_id: periodId, created_entries: toInsert.length };
   });
 
-type SupabaseLike = {
-  from: (table: string) => any;
-  rpc: (fn: string, args: Record<string, unknown>) => any;
+type PeriodPatch = {
+  status?: string;
+  submitted_at?: string;
+  submitted_by?: string;
+  reviewed_at?: string;
+  reviewed_by?: string;
+  review_note?: string | null;
+  closed_at?: string;
+  closed_by?: string;
+  paid_at?: string;
+  reopened_at?: string;
+  reopened_by?: string;
+  reopen_reason?: string | null;
 };
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+type SupabaseLike = any;
 
 async function resolveVersion(
   supabase: SupabaseLike,
