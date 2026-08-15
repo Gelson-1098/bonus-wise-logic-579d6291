@@ -20,7 +20,10 @@ export function LoginCard() {
     setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
-    if (error) return toast.error("Não foi possível entrar", { description: error.message });
+    if (error) {
+      toast.error("Não foi possível entrar", { description: error.message });
+      return;
+    }
     navigate({ to: "/painel" });
   }
 
@@ -35,7 +38,10 @@ export function LoginCard() {
       },
     });
     setLoading(false);
-    if (error) return toast.error("Não foi possível criar a conta", { description: error.message });
+    if (error) {
+      toast.error("Não foi possível criar a conta", { description: error.message });
+      return;
+    }
     toast.success("Conta criada", { description: "Verifique seu e-mail se a confirmação estiver ativa." });
     navigate({ to: "/painel" });
   }
@@ -44,7 +50,10 @@ export function LoginCard() {
     const result = await lovable.auth.signInWithOAuth("google", {
       redirect_uri: window.location.origin,
     });
-    if (result.error) return toast.error("Falha no acesso com Google");
+    if (result.error) {
+      toast.error("Falha no acesso com Google");
+      return;
+    }
     if (result.redirected) return;
     navigate({ to: "/painel" });
   }
