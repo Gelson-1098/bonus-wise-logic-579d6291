@@ -154,7 +154,7 @@ export const transitionPeriod = createServerFn({ method: "POST" })
   .inputValidator((input) => transitionSchema.parse(input))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
-    const { data: isMaster } = await supabase.rpc("has_role", { _user_id: userId, _role: "master" });
+    const { data: isMaster } = await supabase.rpc("is_master");
 
     const { data: period, error } = await supabase
       .from("bonus_periods")
