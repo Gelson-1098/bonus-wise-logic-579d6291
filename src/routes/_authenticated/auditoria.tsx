@@ -28,7 +28,7 @@ function AuditoriaPage() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("audit_logs")
-        .select("id,created_at,user_email,action,entity,description,old_value,new_value,stores(name)")
+        .select("id,created_at,user_email,action,entity,description,old_value,new_value")
         .order("created_at", { ascending: false })
         .limit(300);
       if (error) throw new Error(error.message);
@@ -50,7 +50,7 @@ function AuditoriaPage() {
                   <TableHead>Data</TableHead>
                   <TableHead>Ação</TableHead>
                   <TableHead>Entidade</TableHead>
-                  <TableHead>Loja</TableHead>
+                  <TableHead>Usuário</TableHead>
                   <TableHead>De → Para</TableHead>
                   <TableHead>Descrição</TableHead>
                 </TableRow>
@@ -70,9 +70,7 @@ function AuditoriaPage() {
                     </TableCell>
                     <TableCell className="text-xs font-medium">{l.action}</TableCell>
                     <TableCell className="text-xs">{l.entity ?? "—"}</TableCell>
-                    <TableCell className="text-xs">
-                      {(l.stores as { name: string } | null)?.name ?? "—"}
-                    </TableCell>
+                    <TableCell className="text-xs">{l.user_email ?? "—"}</TableCell>
                     <TableCell className="text-xs text-muted-foreground">
                       {l.old_value || l.new_value ? `${l.old_value ?? "—"} → ${l.new_value ?? "—"}` : "—"}
                     </TableCell>
