@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedCadastrosRouteImport } from './routes/_authenticated/cadastros'
 import { Route as AuthenticatedLancamentoRouteImport } from './routes/_authenticated/lancamento'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as AuthenticatedPeriodosRouteImport } from './routes/_authenticated/periodos'
@@ -30,6 +31,11 @@ const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedCadastrosRoute = AuthenticatedCadastrosRouteImport.update({
+  id: '/cadastros',
+  path: '/cadastros',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedLancamentoRoute = AuthenticatedLancamentoRouteImport.update({
   id: '/lancamento',
@@ -55,6 +61,7 @@ const AuthenticatedRegrasRoute = AuthenticatedRegrasRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/cadastros': typeof AuthenticatedCadastrosRoute
   '/lancamento': typeof AuthenticatedLancamentoRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/periodos': typeof AuthenticatedPeriodosRoute
@@ -63,6 +70,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/cadastros': typeof AuthenticatedCadastrosRoute
   '/lancamento': typeof AuthenticatedLancamentoRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/periodos': typeof AuthenticatedPeriodosRoute
@@ -73,6 +81,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/cadastros': typeof AuthenticatedCadastrosRoute
   '/_authenticated/lancamento': typeof AuthenticatedLancamentoRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
   '/_authenticated/periodos': typeof AuthenticatedPeriodosRoute
@@ -80,14 +89,29 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/lancamento' | '/painel' | '/periodos' | '/regras'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/cadastros'
+    | '/lancamento'
+    | '/painel'
+    | '/periodos'
+    | '/regras'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/lancamento' | '/painel' | '/periodos' | '/regras'
+  to:
+    | '/'
+    | '/auth'
+    | '/cadastros'
+    | '/lancamento'
+    | '/painel'
+    | '/periodos'
+    | '/regras'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/_authenticated/cadastros'
     | '/_authenticated/lancamento'
     | '/_authenticated/painel'
     | '/_authenticated/periodos'
@@ -123,6 +147,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/cadastros': {
+      id: '/_authenticated/cadastros'
+      path: '/cadastros'
+      fullPath: '/cadastros'
+      preLoaderRoute: typeof AuthenticatedCadastrosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/lancamento': {
       id: '/_authenticated/lancamento'
       path: '/lancamento'
@@ -155,6 +186,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedCadastrosRoute: typeof AuthenticatedCadastrosRoute
   AuthenticatedLancamentoRoute: typeof AuthenticatedLancamentoRoute
   AuthenticatedPainelRoute: typeof AuthenticatedPainelRoute
   AuthenticatedPeriodosRoute: typeof AuthenticatedPeriodosRoute
@@ -162,6 +194,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedCadastrosRoute: AuthenticatedCadastrosRoute,
   AuthenticatedLancamentoRoute: AuthenticatedLancamentoRoute,
   AuthenticatedPainelRoute: AuthenticatedPainelRoute,
   AuthenticatedPeriodosRoute: AuthenticatedPeriodosRoute,
