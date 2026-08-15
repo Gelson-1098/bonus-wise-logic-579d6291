@@ -40,7 +40,7 @@ type Version = {
   name: string;
   year: number;
   quarter: number;
-  status: string;
+  status: "rascunho" | "publicada" | "arquivada";
   min_trigger_pct: number;
   alert_pct: number;
   target_pct: number;
@@ -124,7 +124,7 @@ function RegrasPage() {
 
   const updateVersion = useMutation({
     mutationFn: async (patch: Partial<Version>) => {
-      const { error } = await supabase.from("bonus_rule_versions").update(patch).eq("id", versionId);
+      const { error } = await supabase.from("bonus_rule_versions").update(patch as never).eq("id", versionId);
       if (error) throw new Error(error.message);
     },
     onSuccess: () => {
@@ -138,7 +138,7 @@ function RegrasPage() {
     mutationFn: async (row: Partial<Criterion> & { id?: string }) => {
       if (row.id) {
         const { id, ...patch } = row;
-        const { error } = await supabase.from("bonus_criteria").update(patch).eq("id", id);
+        const { error } = await supabase.from("bonus_criteria").update(patch as never).eq("id", id);
         if (error) throw new Error(error.message);
       } else {
         const { error } = await supabase.from("bonus_criteria").insert({

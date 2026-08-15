@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedLancamentoRouteImport } from './routes/_authenticated/lancamento'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as AuthenticatedPeriodosRouteImport } from './routes/_authenticated/periodos'
+import { Route as AuthenticatedRegrasRouteImport } from './routes/_authenticated/regras'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -45,6 +46,11 @@ const AuthenticatedPeriodosRoute = AuthenticatedPeriodosRouteImport.update({
   path: '/periodos',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedRegrasRoute = AuthenticatedRegrasRouteImport.update({
+  id: '/regras',
+  path: '/regras',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/lancamento': typeof AuthenticatedLancamentoRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/periodos': typeof AuthenticatedPeriodosRoute
+  '/regras': typeof AuthenticatedRegrasRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/lancamento': typeof AuthenticatedLancamentoRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/periodos': typeof AuthenticatedPeriodosRoute
+  '/regras': typeof AuthenticatedRegrasRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -68,12 +76,13 @@ export interface FileRoutesById {
   '/_authenticated/lancamento': typeof AuthenticatedLancamentoRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
   '/_authenticated/periodos': typeof AuthenticatedPeriodosRoute
+  '/_authenticated/regras': typeof AuthenticatedRegrasRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/lancamento' | '/painel' | '/periodos'
+  fullPaths: '/' | '/auth' | '/lancamento' | '/painel' | '/periodos' | '/regras'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/lancamento' | '/painel' | '/periodos'
+  to: '/' | '/auth' | '/lancamento' | '/painel' | '/periodos' | '/regras'
   id:
     | '__root__'
     | '/'
@@ -82,6 +91,7 @@ export interface FileRouteTypes {
     | '/_authenticated/lancamento'
     | '/_authenticated/painel'
     | '/_authenticated/periodos'
+    | '/_authenticated/regras'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -134,6 +144,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPeriodosRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/regras': {
+      id: '/_authenticated/regras'
+      path: '/regras'
+      fullPath: '/regras'
+      preLoaderRoute: typeof AuthenticatedRegrasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -141,12 +158,14 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedLancamentoRoute: typeof AuthenticatedLancamentoRoute
   AuthenticatedPainelRoute: typeof AuthenticatedPainelRoute
   AuthenticatedPeriodosRoute: typeof AuthenticatedPeriodosRoute
+  AuthenticatedRegrasRoute: typeof AuthenticatedRegrasRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedLancamentoRoute: AuthenticatedLancamentoRoute,
   AuthenticatedPainelRoute: AuthenticatedPainelRoute,
   AuthenticatedPeriodosRoute: AuthenticatedPeriodosRoute,
+  AuthenticatedRegrasRoute: AuthenticatedRegrasRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
