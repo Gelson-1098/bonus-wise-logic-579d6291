@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedLancamentoRouteImport } from './routes/_authenticated/lancamento'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
+import { Route as AuthenticatedPeriodosRouteImport } from './routes/_authenticated/periodos'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -39,18 +40,25 @@ const AuthenticatedPainelRoute = AuthenticatedPainelRouteImport.update({
   path: '/painel',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPeriodosRoute = AuthenticatedPeriodosRouteImport.update({
+  id: '/periodos',
+  path: '/periodos',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/lancamento': typeof AuthenticatedLancamentoRoute
   '/painel': typeof AuthenticatedPainelRoute
+  '/periodos': typeof AuthenticatedPeriodosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/lancamento': typeof AuthenticatedLancamentoRoute
   '/painel': typeof AuthenticatedPainelRoute
+  '/periodos': typeof AuthenticatedPeriodosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -59,12 +67,13 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/_authenticated/lancamento': typeof AuthenticatedLancamentoRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
+  '/_authenticated/periodos': typeof AuthenticatedPeriodosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/lancamento' | '/painel'
+  fullPaths: '/' | '/auth' | '/lancamento' | '/painel' | '/periodos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/lancamento' | '/painel'
+  to: '/' | '/auth' | '/lancamento' | '/painel' | '/periodos'
   id:
     | '__root__'
     | '/'
@@ -72,6 +81,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/_authenticated/lancamento'
     | '/_authenticated/painel'
+    | '/_authenticated/periodos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -117,17 +127,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPainelRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/periodos': {
+      id: '/_authenticated/periodos'
+      path: '/periodos'
+      fullPath: '/periodos'
+      preLoaderRoute: typeof AuthenticatedPeriodosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedLancamentoRoute: typeof AuthenticatedLancamentoRoute
   AuthenticatedPainelRoute: typeof AuthenticatedPainelRoute
+  AuthenticatedPeriodosRoute: typeof AuthenticatedPeriodosRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedLancamentoRoute: AuthenticatedLancamentoRoute,
   AuthenticatedPainelRoute: AuthenticatedPainelRoute,
+  AuthenticatedPeriodosRoute: AuthenticatedPeriodosRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
