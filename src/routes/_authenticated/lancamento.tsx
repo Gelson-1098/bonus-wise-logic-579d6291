@@ -117,7 +117,14 @@ function LancamentoPage() {
     },
   });
 
-  const target = periodQuery.data?.store_targets?.[0] ?? null;
+  const target = (periodQuery.data?.store_targets ?? null) as {
+    id: string;
+    base_history: number | null;
+    growth_pct: number | null;
+    target_calculated: number | null;
+    target_adjusted: number | null;
+    revenue_actual: number | null;
+  } | null;
   const version = periodQuery.data?.bonus_rule_versions as
     | { name: string; min_trigger_pct: number; alert_pct: number; target_pct: number }
     | null;
@@ -331,11 +338,11 @@ function TargetCard({
           ? Number(base) * (1 + Number(growth) / 100)
           : form['target_calculated'];
       const payload = {
-        base_history: form['base_history'],
-        growth_pct: form['growth_pct'],
+        base_history: form['base_history'] ?? null,
+        growth_pct: form['growth_pct'] ?? null,
         target_calculated: calculated ?? null,
-        target_adjusted: form['target_adjusted'],
-        revenue_actual: form['revenue_actual'],
+        target_adjusted: form['target_adjusted'] ?? null,
+        revenue_actual: form['revenue_actual'] ?? null,
       };
       const { error } = targetId
         ? await supabase.from("store_targets").update(payload).eq("id", targetId)
